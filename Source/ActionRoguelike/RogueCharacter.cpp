@@ -5,6 +5,7 @@
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "EnhancedInputComponent.h"
 
 // Sets default values
 ARogueCharacter::ARogueCharacter()
@@ -26,6 +27,13 @@ void ARogueCharacter::BeginPlay()
 	
 }
 
+void ARogueCharacter::Move(const FInputActionValue& InValue)
+{
+	FVector2D InputValue = InValue.Get<FVector2D>();
+	FVector MoveDirection = FVector(InputValue.X, InputValue.Y, 0.0f);
+	AddMovementInput(MoveDirection);
+}
+
 // Called every frame
 void ARogueCharacter::Tick(float DeltaTime)
 {
@@ -37,6 +45,8 @@ void ARogueCharacter::Tick(float DeltaTime)
 void ARogueCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	
+	UEnhancedInputComponent* EnhancedInput = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+	EnhancedInput->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ARogueCharacter::Move);
 }
 
