@@ -12,6 +12,7 @@
 // Sets default values
 ARogueCharacter::ARogueCharacter()
 {
+	MuzzleSocketName = "Muzzle_01";
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
@@ -29,6 +30,19 @@ void ARogueCharacter::BeginPlay()
 	Super::BeginPlay();
 	
 }
+
+// Called to bind functionality to input
+void ARogueCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	
+	UEnhancedInputComponent* EnhancedInput = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+	EnhancedInput->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ARogueCharacter::Move);
+	EnhancedInput->BindAction(Input_Look, ETriggerEvent::Triggered, this, &ARogueCharacter::Look);
+	
+	EnhancedInput->BindAction(Input_PrimaryAttack, ETriggerEvent::Triggered, this, &ARogueCharacter::PrimaryAttack);
+}
+
 
 void ARogueCharacter::Move(const FInputActionValue& InValue)
 {
@@ -52,6 +66,16 @@ void ARogueCharacter::Look(const FInputActionInstance& InValue)
 	AddControllerYawInput(InputValue.X);
 }
 
+void ARogueCharacter::PrimaryAttack()
+{
+	FVector SpawnLocation = GetMesh()->GetSocketLocation(MuzzleSocketName);
+	FRotator SpawnRotation = GetControlRotation(); //direction of the camera, rotator from camera
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Instigator = this;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnLocation, SpawnRotation, SpawnParams);
+}
 
 // Called every frame
 void ARogueCharacter::Tick(float DeltaTime)
@@ -60,13 +84,5 @@ void ARogueCharacter::Tick(float DeltaTime)
 
 }
 
-// Called to bind functionality to input
-void ARogueCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	
-	UEnhancedInputComponent* EnhancedInput = Cast<UEnhancedInputComponent>(PlayerInputComponent);
-	EnhancedInput->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ARogueCharacter::Move);
-	EnhancedInput->BindAction(Input_Look, ETriggerEvent::Triggered, this, &ARogueCharacter::Look);
-}
+
 

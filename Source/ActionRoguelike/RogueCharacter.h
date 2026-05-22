@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Projectiles/RogueProjectileMagic.h"
 #include "CoreMinimal.h"
 #include "InputAction.h"
 #include "GameFramework/Character.h"
@@ -20,10 +21,18 @@ public:
 	ARogueCharacter();
 
 protected:
+	UPROPERTY(EditDefaultsOnly, Category="PrimaryAttack");
+	TSubclassOf<ARogueProjectileMagic> ProjectileClass;
+	
+	UPROPERTY(VisibleAnywhere, Category="Var Name")
+	FName MuzzleSocketName;
+	
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UInputAction> Input_Move;
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UInputAction> Input_Look;
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	TObjectPtr<UInputAction> Input_PrimaryAttack;
 	
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	TObjectPtr<UCameraComponent> CameraComponent;
@@ -36,6 +45,7 @@ protected:
 	
 	void Move(const FInputActionValue& InValue);
 	void Look(const FInputActionInstance& InValue);
+	void PrimaryAttack();
 
 public:	
 	// Called every frame
@@ -43,5 +53,4 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 };
