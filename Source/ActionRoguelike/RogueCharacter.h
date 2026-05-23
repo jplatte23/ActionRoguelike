@@ -10,6 +10,11 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class UAnimMontage;
+class UNiagaraSystem;
+class ARogueProjectileMagic;
+struct FInputActionInstance;
+struct FInputActionValue;
 
 UCLASS()
 class ACTIONROGUELIKE_API ARogueCharacter : public ACharacter
@@ -23,9 +28,14 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="PrimaryAttack");
 	TSubclassOf<ARogueProjectileMagic> ProjectileClass;
-	
-	UPROPERTY(VisibleAnywhere, Category="Var Name")
+	UPROPERTY(VisibleAnywhere, Category="PrimaryAttack")
 	FName MuzzleSocketName;
+	UPROPERTY(EditDefaultsOnly, Category="PrimaryAttack")
+	TObjectPtr<UAnimMontage> AttackMontage;
+	UPROPERTY(EditDefaultsOnly, Category="PrimaryAttack")
+	TObjectPtr<UNiagaraSystem> CastingEffect;	
+	UPROPERTY(EditDefaultsOnly, Category="PrimaryAttack")
+	TObjectPtr<USoundBase> CastingSound;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UInputAction> Input_Move;
@@ -36,7 +46,6 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	TObjectPtr<UCameraComponent> CameraComponent;
-	
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	TObjectPtr<USpringArmComponent> SpringArmComponent;
 	
@@ -46,6 +55,7 @@ protected:
 	void Move(const FInputActionValue& InValue);
 	void Look(const FInputActionInstance& InValue);
 	void PrimaryAttack();
+	void AttackTimerElapsed();
 
 public:	
 	// Called every frame
