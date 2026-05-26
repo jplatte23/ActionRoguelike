@@ -13,9 +13,6 @@
 // Sets default values
 AExplosiveBarrel::AExplosiveBarrel()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-	
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshComponent");
 	StaticMeshComponent->SetSimulatePhysics(true);
 	StaticMeshComponent->SetCollisionProfileName("Physics Actor");
@@ -42,13 +39,6 @@ void AExplosiveBarrel::Explode()
 	UGameplayStatics::PlaySoundAtLocation(this, ExplosionSound, GetActorLocation(), FRotator::ZeroRotator);
 }
 
-// Called when the game starts or when spawned
-void AExplosiveBarrel::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
 float AExplosiveBarrel::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent,
 	class AController* EventInstigator, AActor* DamageCauser)
 {
@@ -66,11 +56,5 @@ float AExplosiveBarrel::TakeDamage(float DamageAmount, struct FDamageEvent const
 	GetWorldTimerManager().SetTimer(ExplosionTimeHandle, this, &AExplosiveBarrel::Explode, ExplosionDelay);
 	
 	return ActualDamage;
-}
-
-// Called every frame
-void AExplosiveBarrel::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
