@@ -1,7 +1,7 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ExplosiveBarrel.h"
+#include "RogueExplosiveBarrel.h"
 
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
@@ -11,7 +11,7 @@
 
 
 // Sets default values
-AExplosiveBarrel::AExplosiveBarrel()
+ARogueExplosiveBarrel::ARogueExplosiveBarrel()
 {
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshComponent");
 	StaticMeshComponent->SetSimulatePhysics(true);
@@ -26,7 +26,7 @@ AExplosiveBarrel::AExplosiveBarrel()
 	RadialForceComponent->bIgnoreOwningActor = true;
 }
 
-void AExplosiveBarrel::Explode()
+void ARogueExplosiveBarrel::Explode()
 {
 	bHasExploded = true;
 	
@@ -39,7 +39,7 @@ void AExplosiveBarrel::Explode()
 	UGameplayStatics::PlaySoundAtLocation(this, ExplosionSound, GetActorLocation(), FRotator::ZeroRotator);
 }
 
-float AExplosiveBarrel::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent,
+float ARogueExplosiveBarrel::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent,
 	class AController* EventInstigator, AActor* DamageCauser)
 {
 	float ActualDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
@@ -53,7 +53,7 @@ float AExplosiveBarrel::TakeDamage(float DamageAmount, struct FDamageEvent const
 		FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::Type::SnapToTarget, true);
 	AudioComponent = UGameplayStatics::SpawnSoundAttached(BurningSound, StaticMeshComponent);
 	
-	GetWorldTimerManager().SetTimer(ExplosionTimeHandle, this, &AExplosiveBarrel::Explode, ExplosionDelay);
+	GetWorldTimerManager().SetTimer(ExplosionTimeHandle, this, &ARogueExplosiveBarrel::Explode, ExplosionDelay);
 	
 	return ActualDamage;
 }

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ExplosiveBarrel.generated.h"
+#include "RogueExplosiveBarrel.generated.h"
 
 class UNiagaraSystem;
 class URadialForceComponent;
@@ -13,13 +13,13 @@ class UAudioComponent;
 class UNiagaraComponent;
 
 UCLASS()
-class ACTIONROGUELIKE_API AExplosiveBarrel : public AActor
+class ACTIONROGUELIKE_API ARogueExplosiveBarrel : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	AExplosiveBarrel();
+	ARogueExplosiveBarrel();
 
 protected:
 	// Called when the game starts or when spawned
@@ -49,10 +49,7 @@ protected:
 	bool bHasExploded = false;
 	
 	void Explode();
-	virtual void BeginPlay() override;
-
+	
 public:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 };
