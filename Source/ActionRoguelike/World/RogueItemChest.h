@@ -6,20 +6,31 @@
 #include "GameFramework/Actor.h"
 #include "RogueItemChest.generated.h"
 
+class UStaticMeshComponent;
+
 UCLASS()
 class ACTIONROGUELIKE_API ARogueItemChest : public AActor
 {
 	GENERATED_BODY()
 
-public:
-	// Sets default values for this actor's properties
-	ARogueItemChest();
-
 protected:
-	// Called when the game starts or when spawned
+	UPROPERTY(EditDefaultsOnly, Category="Components")
+	TObjectPtr<UStaticMeshComponent> BaseMeshComponent;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Components")
+	TObjectPtr<UStaticMeshComponent> LidMeshComponent;
+	
+	UPROPERTY(EditAnywhere, Category="Animation")
+	float AnimationSpeed = 50.0f;
+	
+	UPROPERTY(EditAnywhere, Category="Animation")
+	float AnimationTargetPitch = 120.0f;
+	
+	float CurrentLidPitch = 0.0f;
+	
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	ARogueItemChest();
 };
