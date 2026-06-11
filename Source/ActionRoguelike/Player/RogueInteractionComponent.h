@@ -15,8 +15,13 @@ class ACTIONROGUELIKE_API URogueInteractionComponent : public UActorComponent
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="Interaction")
 	float InteractionRadius = 800.0f;
+	
+	UPROPERTY()
+	TObjectPtr<AActor> SelectedActor;
 public:
 	URogueInteractionComponent();
+	
+	void Interact();
 	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
