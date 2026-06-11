@@ -3,9 +3,9 @@
 
 #include "RogueInteractionComponent.h"
 
+#include "RogueGameTypes.h"
 #include "ActionRoguelike/Core/RogueInteractionInterface.h"
 #include "Engine/OverlapResult.h"
-
 
 URogueInteractionComponent::URogueInteractionComponent()
 {
@@ -29,7 +29,7 @@ void URogueInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickT
 	APlayerController* PlayerController = CastChecked<APlayerController>(this->GetOwner());
 	FVector Center = PlayerController->GetPawn()->GetActorLocation();
 	
-	ECollisionChannel CollisionChannel = ECollisionChannel::ECC_Visibility;
+	ECollisionChannel CollisionChannel = COLLISION_INTERACTION;
 	FCollisionShape Shape;
 	Shape.SetSphere(InteractionRadius);
 	
