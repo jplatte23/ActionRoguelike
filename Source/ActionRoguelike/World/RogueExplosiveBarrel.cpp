@@ -30,8 +30,8 @@ void ARogueExplosiveBarrel::Explode()
 {
 	bHasExploded = true;
 	
-	NiagaraComponent->Deactivate();
-	AudioComponent->Deactivate();
+	if (NiagaraComponent) NiagaraComponent->Deactivate();
+	if (AudioComponent) AudioComponent->Deactivate();
 	
 	RadialForceComponent->FireImpulse();
 	
