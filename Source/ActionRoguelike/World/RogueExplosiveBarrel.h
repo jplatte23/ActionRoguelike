@@ -48,6 +48,7 @@ protected:
 	FTimerHandle ExplosionTimeHandle;
 	bool bHasExploded = false;
 	
+	UFUNCTION(BlueprintCallable)
 	void Explode();
 	
 public:

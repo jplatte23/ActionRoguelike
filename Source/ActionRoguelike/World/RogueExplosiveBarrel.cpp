@@ -35,6 +35,9 @@ void ARogueExplosiveBarrel::Explode()
 	
 	RadialForceComponent->FireImpulse();
 	
+	StaticMeshComponent->AddImpulse(FVector::UpVector * 1000, NAME_None, true);
+	StaticMeshComponent->AddAngularImpulseInDegrees(FVector::RightVector * 1000, NAME_None, true);
+	
 	UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ExplosionEffect, GetActorLocation(), GetActorRotation());
 	UGameplayStatics::PlaySoundAtLocation(this, ExplosionSound, GetActorLocation(), FRotator::ZeroRotator);
 }
