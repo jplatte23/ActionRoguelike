@@ -57,6 +57,6 @@ void URogueInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickT
 	{
 		DrawDebugBox(GetWorld(), BestActor->GetActorLocation(), FVector(60.0f), FColor::Green);
 	}
-	DrawDebugSphere(GetWorld(), Center, InteractionRadius, 32, FColor::White);
+	//DrawDebugSphere(GetWorld(), Center, InteractionRadius, 32, FColor::White);
 }
 
