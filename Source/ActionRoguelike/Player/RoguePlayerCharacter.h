@@ -8,6 +8,7 @@
 #include "GameFramework/Character.h"
 #include "RoguePlayerCharacter.generated.h"
 
+class URogueActionSystemComponent;
 class ARogueBlackholeProjectile;
 class ARogueProjectile;
 class USpringArmComponent;
@@ -62,9 +63,13 @@ protected:
 	TObjectPtr<UCameraComponent> CameraComponent;
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	TObjectPtr<USpringArmComponent> SpringArmComponent;
+	UPROPERTY(VisibleAnywhere, Category="Components")
+	TObjectPtr<URogueActionSystemComponent> ActionSystemComponent;
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& FDamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
 	
 	void Move(const FInputActionValue& InValue);
 	void Look(const FInputActionInstance& InValue);

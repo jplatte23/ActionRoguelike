@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "ActionSystem/RogueActionSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Projectiles/RogueBlackholeProjectile.h"
 
@@ -25,6 +26,8 @@ ARoguePlayerCharacter::ARoguePlayerCharacter()
 	
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 	CameraComponent->SetupAttachment(SpringArmComponent);
+	
+	ActionSystemComponent = CreateDefaultSubobject<URogueActionSystemComponent>(TEXT("ActionSystemComp"));
 }
 
 // Called when the game starts or when spawned
@@ -32,6 +35,14 @@ void ARoguePlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+float ARoguePlayerCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& FDamageEvent,
+	class AController* EventInstigator, class AActor* DamageCauser)
+{
+	float ActualDamage =  Super::TakeDamage(DamageAmount, FDamageEvent, EventInstigator, DamageCauser);
+	ActionSystemComponent->ApplyHealthChange(-ActualDamage);
+	return ActualDamage;
 }
 
 // Called to bind functionality to input
